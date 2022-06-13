@@ -79,36 +79,7 @@ jobs:
           command: |
               cd frontend
               npm install
-              npm update moment --depth 1
-              npm update eventsource --depth 3
-              npm update cheerio --depth 2
-              npm update jsprim --depth 12
-              npm update tmpl --depth 15
-              npm update ansi-regex --depth 15
-              npm update y18n --depth 10
-              npm update react-popper --depth 2
-              npm update lodash.template --depth 3
-              npm update mixin-deep --depth 20
-              npm update lodash --depth 17
-              npm update websocket-extensions --depth 5 
-              npm update kind-of --depth 23
-              npm update terser-webpack-plugin --depth 2
-              npm update http-proxy --depth 3 
-              npm update yargs-parser --depth 3
-              npm update ini --depth 6
-              npm update elliptic --depth 5
-              npm update ssri --depth 4 
-              npm update ua-parser-js --depth 5
-              npm update hosted-git-info --depth 16
-              npm update ajv --depth 4 
-              npm update handlebars --depth 6 
-              npm update browserslist --depth 3 
-              npm update dns-packet --depth 4
-              npm update postcss --depth 4
-              npm update path-parse --depth 17
-              npm update follow-redirects --depth 4 
-              npm update jest-cli --depth 2 
-              npm update mkdirp --depth 3
+              npm update *
               npm audit fix --audit-level=critical --force
               npm audit --audit-level=critical
 
