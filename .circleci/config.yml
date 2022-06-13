@@ -42,7 +42,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build]
+          keys: [frontend-build]
         name: Front-end test
         command: |
             cd frontend
