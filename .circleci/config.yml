@@ -159,7 +159,7 @@ jobs:
           name: Configure server
           command: |
               cd .circleci/ansible
-              ansible-playbook -i inventory.txt configure-server.yml --key-file 7c27255b7e36ddc07bcdf0b0bbbe32e2
+              ansible-playbook -i inventory.txt configure-server.yml --key-file ~/.ssh/id_rsa_7c27255b7e36ddc07bcdf0b0bbbe32e2
               exit 0
       - slack/notify:
           event: fail
