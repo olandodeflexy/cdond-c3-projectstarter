@@ -21,12 +21,7 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
-      - slack/notify:
-          event: pass
-          template: success_tagged_deploy_1
+ 
 
   build-backend:
     docker:
@@ -131,6 +126,12 @@ jobs:
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  
               exit 1
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
       - run:
           name: Add back-end ip to ansible inventory
           command: |
@@ -165,4 +166,4 @@ workflows:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           filters:
             branches:
-              only: [test-feature-branch]
+              only: [master]
