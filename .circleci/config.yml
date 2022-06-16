@@ -134,7 +134,7 @@ jobs:
             --output text >> ~/project/.circleci/ansible/inventory.txt
             cat ~/project/.circleci/ansible/inventory.txt
       - persist_to_workspace:
-          root: ~/
+          root: .
           paths:
             - project/.circleci/ansible/*
 
@@ -145,10 +145,9 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: 
-            - "6d:12:b5:74:1c:0a:b1:78:62:ae:b1:e9:df:29:7c:6a"
+          fingerprints: ["6d:12:b5:74:1c:0a:b1:78:62:ae:b1:e9:df:29:7c:6a"]
       - attach_workspace:
-            at: ~/
+            at: .
       - restore_cache:
           keys: [backend-build]
       - run:
