@@ -136,13 +136,38 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/.circleci/ansible/inventory.txt
+            - project/.circleci/ansible/*
+
+
+  configure-infrastructure:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: [6d:12:b5:74:1c:0a:b1:78:62:ae:b1:e9:df:29:7c:6a]
+      - attach_workspace:
+            at: ~/
+      - run:
+          name: Install dependencies
+          command: | # Install Dependencies
+            yum install update -y 
+            apk add --update ansible
+            yum install -y tar gzip aws-cli curl 
+            exit 1
       - slack/notify:
           event: fail
           template: basic_fail_1
       - slack/notify:
           event: pass
           template: success_tagged_deploy_1
+      - run:
+          name: Configure server
+          command: |
+              cd .circleci/ansible
+              ansible-playbook -i inventory.txt configure-server.yml
+            exit 1
+      # Here's where you will add some code to rollback on failure 
 
 
  
