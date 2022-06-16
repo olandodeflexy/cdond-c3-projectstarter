@@ -161,7 +161,7 @@ jobs:
           command: |
               cd .circleci/ansible
               ansible-playbook -i inventory.txt configure-server.yml \
-              --key-file ~/.ssh/id_rsa_5c1fd5949de9d7f621242f1d9928c980
+
       - slack/notify:
           event: fail
           template: basic_fail_1
