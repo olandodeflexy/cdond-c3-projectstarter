@@ -145,7 +145,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["6d:12:b5:74:1c:0a:b1:78:62:ae:b1:e9:df:29:7c:6a"]
+          fingerprints: ["5c:1f:d5:94:9d:e9:d7:f6:21:24:2f:1d:99:28:c9:80"]
       - attach_workspace:
             at: ~/
       - restore_cache:
@@ -161,8 +161,7 @@ jobs:
           command: |
               cd .circleci/ansible
               ansible-playbook -i inventory.txt configure-server.yml \
-              --key-file ~/.ssh/id_rsa_6d12b5741c0ab17862aeb1e9df297c6a
-              exit 0
+              --key-file ~/.ssh/id_rsa_	5c1fd5949de9d7f621242f1d9928c980
       - slack/notify:
           event: fail
           template: basic_fail_1
