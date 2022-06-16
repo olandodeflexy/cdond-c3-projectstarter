@@ -157,7 +157,7 @@ jobs:
           name: Configure server
           command: |
               cd .circleci/ansible
-              sudo ansible-playbook -i inventory.txt configure-server.yml
+              ansible-playbook -i inventory.txt configure-server.yml -v
               exit 1
       - slack/notify:
           event: fail
