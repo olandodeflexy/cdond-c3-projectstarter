@@ -131,19 +131,18 @@ jobs:
             aws ec2 describe-instances \
             --filter "Name=instance-state-name,Values=running" \
             --query "Reservations[*].Instances[*].[PublicIpAddress]" \
-            --output text > ~/project/.circleci/ansible/inventory.txt
+            --output text >> ~/project/.circleci/ansible/inventory.txt
             cat ~/project/.circleci/ansible/inventory.txt
-            exit 1
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/.circleci/ansible/inventory.txt
       - slack/notify:
           event: fail
           template: basic_fail_1
       - slack/notify:
           event: pass
           template: success_tagged_deploy_1
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/.circleci/ansible/inventory.txt
 
 
  
