@@ -69,3 +69,9 @@ node_modules
 .env
 dist
 config-sample.yml
+code.txt
+postgres.txt
+s3bucket-parameters.json
+udacity.pem
+S3bucket.yml
+Cloudfront.yml
