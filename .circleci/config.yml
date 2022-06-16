@@ -154,7 +154,6 @@ jobs:
             apk add --update --no-cache ansible
             pip install awscli
             apk add --update --no-cache tar gzip curl 
-            exit 1
       - slack/notify:
           event: fail
           template: basic_fail_1
