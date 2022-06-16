@@ -151,9 +151,9 @@ jobs:
       - run:
           name: Install dependencies
           command: | # Install Dependencies
-            apk add --update --no-cahce ansible
+            apk add --update --no-cache ansible
             pip install awscli
-            apk add --update --no-cahce tar gzip curl 
+            apk add --update --no-cache tar gzip curl 
             exit 1
       - slack/notify:
           event: fail
