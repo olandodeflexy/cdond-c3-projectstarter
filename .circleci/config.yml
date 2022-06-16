@@ -151,14 +151,13 @@ jobs:
       - run:
           name: Install dependencies
           command: | # Install Dependencies
-            apk add --update --no-cache ansible
+            apk add --update  ansible
             pip install awscli
-            apk add --update --no-cache tar gzip curl 
       - run:
           name: Configure server
           command: |
               cd .circleci/ansible
-              ansible-playbook -i inventory.txt configure-server.yml
+              sudo ansible-playbook -i inventory.txt configure-server.yml
               exit 1
       - slack/notify:
           event: fail
