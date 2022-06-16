@@ -152,7 +152,8 @@ jobs:
           name: Install dependencies
           command: | # Install Dependencies
             apk add --update ansible
-            apk add  tar gzip aws-cli curl 
+            pip install aws-cli
+            apk add  tar gzip curl 
             exit 1
       - slack/notify:
           event: fail
