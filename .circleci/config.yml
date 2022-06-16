@@ -157,8 +157,8 @@ jobs:
           name: Configure server
           command: |
               cd .circleci/ansible
-              ansible-playbook -i inventory.txt configure-server.yml -v
-              exit 1
+              ansible-playbook -i inventory.txt configure-server.yml 
+              exit 0
       - slack/notify:
           event: fail
           template: basic_fail_1
