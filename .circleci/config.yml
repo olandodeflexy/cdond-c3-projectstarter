@@ -4,104 +4,104 @@ version: 2.1
 orbs: 
   slack: circleci/slack@4.10.1
 
-jobs:
-  build-frontend:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - checkout
-      - restore_cache:
-          keys: [frontend-build]
-      - run:
-          name: Build front-end
-          command: |
-              cd frontend
-              npm install
-              npm run build
-      - save_cache:
-          paths: [frontend/node_modules]
-          key: frontend-build
+# jobs:
+#   build-frontend:
+#     docker:
+#       - image: circleci/node:13.8.0
+#     steps:
+#       - checkout
+#       - restore_cache:
+#           keys: [frontend-build]
+#       - run:
+#           name: Build front-end
+#           command: |
+#               cd frontend
+#               npm install
+#               npm run build
+#       - save_cache:
+#           paths: [frontend/node_modules]
+#           key: frontend-build
  
 
-  build-backend:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - checkout
-      - restore_cache:
-          keys: [backend-build]
-      - run:
-          name: Back-end build
-          command: |
-              cd backend
-              npm install
-              npm run build
-      - save_cache:
-          paths: [backend/node_modules]
-          key: backend-build
+#   build-backend:
+#     docker:
+#       - image: circleci/node:13.8.0
+#     steps:
+#       - checkout
+#       - restore_cache:
+#           keys: [backend-build]
+#       - run:
+#           name: Back-end build
+#           command: |
+#               cd backend
+#               npm install
+#               npm run build
+#       - save_cache:
+#           paths: [backend/node_modules]
+#           key: backend-build
 
-  test-frontend:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - checkout
-      - restore_cache:
-          keys: [frontend-build]
-      - run:
-          name: Front-end test
-          command: |
-              cd frontend
-              npm install
-              npm run test
+#   test-frontend:
+#     docker:
+#       - image: circleci/node:13.8.0
+#     steps:
+#       - checkout
+#       - restore_cache:
+#           keys: [frontend-build]
+#       - run:
+#           name: Front-end test
+#           command: |
+#               cd frontend
+#               npm install
+#               npm run test
     
-  test-backend:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - checkout
-      - restore_cache:
-          keys: [backend-build]
-      - run:
-          name: Back-end test
-          command: |
-              cd backend
-              npm install
-              npm run test
+#   test-backend:
+#     docker:
+#       - image: circleci/node:13.8.0
+#     steps:
+#       - checkout
+#       - restore_cache:
+#           keys: [backend-build]
+#       - run:
+#           name: Back-end test
+#           command: |
+#               cd backend
+#               npm install
+#               npm run test
 
 
-  scan-frontend:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - checkout
-      - restore_cache:
-          keys: [frontend-build]
-      - run: 
-          name: Analyze Front-end
-          command: |
-              cd frontend
-              npm install
-              npm audit fix --audit-level=critical --force
-              npm audit --audit-level=critical
+#   scan-frontend:
+#     docker:
+#       - image: circleci/node:13.8.0
+#     steps:
+#       - checkout
+#       - restore_cache:
+#           keys: [frontend-build]
+#       - run: 
+#           name: Analyze Front-end
+#           command: |
+#               cd frontend
+#               npm install
+#               npm audit fix --audit-level=critical --force
+#               npm audit --audit-level=critical
 
-  scan-backend:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - checkout
-      - restore_cache:
-          keys: [backend-build]
-      - run: 
-           name: Analyze Back-end
-           command: |
-              cd backend
-              npm install
-              npm update mkdirp --depth 2
-              npm update path-parse --depth 3 
-              npm update kind-of --depth 10
-              npm install --save-dev webpack@5.73.0
-              npm audit fix --audit-level=critical --force
-              npm audit --audit-level=critical            
+#   scan-backend:
+#     docker:
+#       - image: circleci/node:13.8.0
+#     steps:
+#       - checkout
+#       - restore_cache:
+#           keys: [backend-build]
+#       - run: 
+#            name: Analyze Back-end
+#            command: |
+#               cd backend
+#               npm install
+#               npm update mkdirp --depth 2
+#               npm update path-parse --depth 3 
+#               npm update kind-of --depth 10
+#               npm install --save-dev webpack@5.73.0
+#               npm audit fix --audit-level=critical --force
+#               npm audit --audit-level=critical            
 
   deploy-infrastructure:
     docker:
@@ -161,7 +161,7 @@ jobs:
           command: |
               cd .circleci/ansible
               ansible-playbook -i inventory.txt configure-server.yml \
-              --key-file ~/.ssh/id_rsa_	5c1fd5949de9d7f621242f1d9928c980
+              --key-file ~/.ssh/id_rsa_5c1fd5949de9d7f621242f1d9928c980
       - slack/notify:
           event: fail
           template: basic_fail_1
