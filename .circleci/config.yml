@@ -155,6 +155,7 @@ jobs:
           command: | # Install Dependencies
             apk add --update  ansible
             pip install awscli
+            apk add openssh
       - run:
           name: Configure server
           command: |
