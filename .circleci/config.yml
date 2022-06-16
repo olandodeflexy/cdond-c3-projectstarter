@@ -129,10 +129,9 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             aws ec2 describe-instances \
-            --filter "Name=instance-state-name,Values=running" \
-            --query "Reservations[*].Instances[*].[PublicIpAddress]" \
-            --output text >> ~/project/.circleci/ansible/inventory.txt
-            cat ~/project/.circleci/ansible/inventory.txt
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --filters "Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --output text >> .circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
@@ -155,12 +154,12 @@ jobs:
           command: | # Install Dependencies
             apk add --update  ansible
             pip install awscli
-            apk add openssh
       - run:
           name: Configure server
           command: |
               cd .circleci/ansible
-              ansible-playbook -i inventory.txt configure-server.yml
+              ansible-playbook -i inventory.txt configure-server.yml \
+              --key-file ~/.ssh/id_rsa_5c1fd5949de9d7f621242f1d9928c980
       - slack/notify:
           event: fail
           template: basic_fail_1
