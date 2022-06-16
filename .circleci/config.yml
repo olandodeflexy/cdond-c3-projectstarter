@@ -145,7 +145,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: [6d:12:b5:74:1c:0a:b1:78:62:ae:b1:e9:df:29:7c:6a]
+          fingerprints: ["6d:12:b5:74:1c:0a:b1:78:62:ae:b1:e9:df:29:7c:6a"]
       - attach_workspace:
             at: ~/
       - run:
@@ -154,18 +154,18 @@ jobs:
             apk add --update --no-cache ansible
             pip install awscli
             apk add --update --no-cache tar gzip curl 
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
-      - slack/notify:
-          event: pass
-          template: success_tagged_deploy_1
       - run:
           name: Configure server
           command: |
               cd .circleci/ansible
               ansible-playbook -i inventory.txt configure-server.yml
               exit 1
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
       # Here's where you will add some code to rollback on failure 
 
 
