@@ -262,9 +262,9 @@ jobs:
             apk add --update --no-cache tar gzip nodejs npm curl
             pip install awscli
       - run:
-          name: Get BAckend URL
+          name: Get backend url
           command: |
-              export BACKEND_IP=$(aws ec2 describe-instances \
+            export BACKEND_IP=$(aws ec2 describe-instances \
             --filter "Name=instance-state-name,Values=running" \
             --query "Reservations[*].Instances[*].[PublicIpAddress]" \
             --output text)
@@ -272,10 +272,6 @@ jobs:
           name: Beck-end Smoke Test
           command: |
 # Fetch and prepare the BACKEND_IP env var
-            export BACKEND_IP=$(aws ec2 describe-instances \
-            --filter "Name=instance-state-name,Values=running" \
-            --query "Reservations[*].Instances[*].[PublicIpAddress]" \
-            --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
@@ -285,7 +281,7 @@ jobs:
                  return 1
             fi
       - run:
-          name: Front-end SMoke test
+          name: Front-end Smoke Test
           command: |
               URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"            
               echo ${URL} 
