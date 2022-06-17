@@ -29,3 +29,13 @@
     global: yes
     production: yes
     state: present
+
+- name: Extract files 
+  become: true
+  unarchive:
+    src: files/artifact.tar.gz
+    dest: .
+
+- name: Executing node
+  shell: |
+    pm2 start ./main.js -f
