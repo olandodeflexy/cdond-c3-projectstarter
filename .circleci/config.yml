@@ -183,6 +183,7 @@ jobs:
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
               curl https://kvdb.io/HJEsjfEikkKe3JyFZ4NCN5/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+            fi
       - slack/notify:
           event: fail
           template: basic_fail_1
