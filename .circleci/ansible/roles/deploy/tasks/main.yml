@@ -38,5 +38,6 @@
 
 - name: Executing node
   shell: |
+    become: true
     pm2 stop all
     pm2 start npm -- start
