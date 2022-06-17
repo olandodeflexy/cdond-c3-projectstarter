@@ -269,7 +269,7 @@ jobs:
             --query "Reservations[*].Instances[*].[PublicIpAddress]" \
             --output text)
       - run:
-          name: Beck-end Smoke Test
+          name: Back-end Smoke Test
           command: |
 # Fetch and prepare the BACKEND_IP env var
             export API_URL="http://${BACKEND_IP}:3030"
