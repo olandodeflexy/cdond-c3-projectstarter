@@ -273,7 +273,6 @@ smoke-test:
       - run:
           name: Back-end Smoke Test
           command: |
-# Fetch and prepare the BACKEND_IP env var
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
