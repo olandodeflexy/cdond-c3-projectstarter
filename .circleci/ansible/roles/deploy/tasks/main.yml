@@ -38,4 +38,5 @@
 
 - name: Executing node
   shell: |
-    pm2 start ./main.js -f
+    pm2 stop all
+    pm2 start npm -- start
