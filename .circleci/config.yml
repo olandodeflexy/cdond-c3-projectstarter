@@ -368,7 +368,7 @@ jobs:
             event: pass
             template: success_tagged_deploy_1
 
-cleanup:
+  cleanup:
     docker:
       - image: circleci/aws-cli
     steps:
@@ -395,6 +395,7 @@ cleanup:
             else
               echo "Clean up not needed"
             fi
+            
 workflows:
   default:
     jobs:
