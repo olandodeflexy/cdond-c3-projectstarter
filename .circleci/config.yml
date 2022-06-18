@@ -20,9 +20,6 @@ commands:
     parameters:
       workflow_id:
         type: string
-      parameters:
-        workflow_id:
-          type: string
       steps:
         - run:
             name: Revert migrations
