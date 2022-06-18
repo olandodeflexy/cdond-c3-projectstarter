@@ -20,21 +20,19 @@ commands:
     parameters:
       workflow_id:
         type: string
-      steps:
-        - run:
-            name: Revert migrations
-            when: on_fail
-            command: |
-              SUCCESS=$(curl --insecure  https://kvdb.io/9GE4jRtKznmVKRfvdBABBe/migration_<< parameters.workflow_id >>)
-              if (($SUCCESS == 1))
-              then
-                  cd ~/project/backend
-                  npm instal
-                  npm run build
-                  npm run migrations:revert
-              i
-
-
+    steps:
+      - run:
+          name: Revert migrations
+          when: on_fail
+          command: |
+            SUCCESS=$(curl --insecure  https://kvdb.io/9GE4jRtKznmVKRfvdBABBe/migration_<< parameters.workflow_id >>)
+            if (($SUCCESS == 1))
+            then
+              cd ~/project/backend
+              npm instal
+              npm run build
+              npm run migrations:revert
+            fi
 
 
 orbs: 
