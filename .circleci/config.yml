@@ -339,6 +339,28 @@ jobs:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - revert_migration:
             workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}  
+
+  cloudfront-update:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            yum install -y tar gzip
+      - run:
+          name: Update cloudfront distribution
+          command: |
+            aws cloudformation deploy \
+                 --template-file .circleci/files/cloudfront.yml \
+                 --stack-name InitialStack \
+                 --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+                 --tags project=udapeople
+      - destroy-environment:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert_migration:
+            workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}   
       - slack/notify:
             event: fail
             template: basic_fail_1
