@@ -383,7 +383,6 @@ jobs:
               export OldWorkflowID=$(aws cloudformation \
               list-exports -- query "Exports[?Name==\`Workflow\`].Value\
               --no-paginate --output text)
-              export OldWorkflowID=$(aws cloudformation \
               echo OldWorkflowID:"${OldWorkflowID}"
               echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"        
               export STACKS=$(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
