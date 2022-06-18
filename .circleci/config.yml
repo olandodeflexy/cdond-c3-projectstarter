@@ -361,18 +361,17 @@ jobs:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - revert_migration:
             workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}   
-      - slack/notify:
-            event: fail
-            template: basic_fail_1
-      - slack/notify:
-            event: pass
-            template: success_tagged_deploy_1
 
   cleanup:
     docker:
-      - image: circleci/aws-cli
+      - image: python:3.10-alpine3.16
     steps:
       - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update --no-cache tar gzip nodejs npm curl
+            pip install awscli
       - run:
           name: Get old stack workflow id
           command: |
@@ -395,6 +394,13 @@ jobs:
             else
               echo "Clean up not needed"
             fi
+      - slack/notify:
+            event: fail
+            template: basic_fail_1
+      - slack/notify:
+            event: pass
+            template: success_tagged_deploy_1
+
             
 workflows:
   default:
