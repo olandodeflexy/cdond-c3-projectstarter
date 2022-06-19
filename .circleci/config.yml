@@ -394,7 +394,7 @@ jobs:
                   --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
                 echo Stack names: "${STACKS[@]}"
       - run: 
-          name:Remove Old Infrastructure
+          name: Remove Old Infrastructure
           command: |
                if [[ "$CIRCLE_WORKFLOW_ID" != "$OldWorkflowID" ]]
                then
