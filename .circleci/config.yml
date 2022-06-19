@@ -383,10 +383,11 @@ jobs:
            export OldWorkflowID=$(curl https://kvdb.io/4UyLmH6gV9fDPfNi3hRy38/OldWrkflwId)
            echo OldWorkflowID: "$OldWorkflowID"
            echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
-
       - run:
           name: Remove old stacks and files
           command: |
+            echo OldWorkflowID: "$OldWorkflowID"
+            echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
             if [[ "$CurrentWorkflowID" != "$OldWorkflowID" ]]
             then
               aws s3 rm "s3://$OldWorkflowID" --recursive
