@@ -349,7 +349,7 @@ jobs:
           name: Install dependencies
           command: |
             yum install -y tar gzip
-        - run:
+      - run:
           name: Store old WorkflowID in memstash for cleanup phase
           working_directory: ./.circleci/files
           command: |
