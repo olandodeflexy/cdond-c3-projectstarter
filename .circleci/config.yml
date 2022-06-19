@@ -312,7 +312,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dependencies
+          name: Install dependencie
           command: |
             apk add --update --no-cache tar gzip nodejs npm curl
             pip install awscli
