@@ -342,14 +342,15 @@ jobs:
 
   cloudfront-update:
     docker:
-      - image: amazon/aws-cli
+      - image: python:3.10-alpine3.16
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            yum install -y tar gzip
-      - run:
+            apk add --update --no-cache tar gzip nodejs npm curl
+            pip install awscli
+       - run:
           name: Store old WorkflowID in memstash for cleanup phase
           working_directory: ./.circleci/files
           command: |
@@ -385,9 +386,9 @@ jobs:
           name: Get old stack workflow id
           command: |
               export OldWorkflowID=https://kvdb.io/4UyLmH6gV9fDPfNi3hRy38/OldWrkflwId
-              echo OldWorkflowID: "${OldWorkflowID}"
+              echo OldWorkflowID: "$OldWorkflowID"
               export CIRCLE_WORKFLOW_ID=${CIRCLE_WORKFLOW_ID:0:7}
-              echo CIRCLE_WORKFLOW_ID       
+              echo CIRCLE_WORKFLOW_ID: "$CIRCLE_WORKFLOW_ID"       
               export STACKS=$(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
               --stack-status-filter CREATE_COMPLETE --no-paginate --output text)
               echo Stack names: "${STACKS[@]}"  
