@@ -193,11 +193,11 @@ jobs:
             at: ~/
       - run:
           name: Install dependencies
-          command: | # Install Dependencies
+          command: | 
             apk add --update  ansible
             pip install awscli
       - run:
-          name: Configure server
+          name: Configure servers
           command: |
               cd .circleci/ansible
               ansible-playbook -i inventory.txt configure-server.yml
