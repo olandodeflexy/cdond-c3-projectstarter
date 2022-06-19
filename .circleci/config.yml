@@ -205,20 +205,21 @@ jobs:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
 
-
   run-migrations:
     docker:
-      - image: circleci/node:13.8.0
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - restore_cache:
           keys: [backend-build]
       - run:
+          name: Install dependencies
+          command: |
+              apk add --update --no-cache tar gzip nodejs npm aws-cli curl
+      - run:
           name: Run migrations
           command: |
             cd backend
-            rm -rf node/modules
-            rm ./package-lock.json 
             npm install
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt
@@ -352,10 +353,6 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            yum install -y tar gzip
       - run:
           name: Update cloudfront distribution
           command: |
