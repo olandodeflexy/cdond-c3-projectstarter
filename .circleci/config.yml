@@ -217,6 +217,8 @@ jobs:
           name: Run migrations
           command: |
             cd backend
+            rm -rf node/modules
+            rm ./package-lock.json 
             npm install
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt
