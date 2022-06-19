@@ -350,7 +350,7 @@ jobs:
           command: |
             apk add --update --no-cache tar gzip nodejs npm curl
             pip install awscli
-       - run:
+      - run:
           name: Store old WorkflowID in memstash for cleanup phase
           working_directory: ./.circleci/files
           command: |
