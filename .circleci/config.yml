@@ -365,7 +365,7 @@ jobs:
               aws cloudformation deploy \
                  --template-file .circleci/files/cloudfront.yml \
                  --stack-name InitialStack \
-                 --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+                 --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
                  --tags project=udapeople
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
@@ -380,13 +380,15 @@ jobs:
       - run:
           name: Get old stack workflow id
           command: |
-            export OldWorkflowID=$(curl curl https://kvdb.io/4UyLmH6gV9fDPfNi3hRy38/OldWrkflwId)
+            export OldWorkflowID=$(curl https://kvdb.io/4UyLmH6gV9fDPfNi3hRy38/OldWrkflwId)
             echo OldWorkflowID: "$OldWorkflowID"
             export CIRCLE_WORKFLOW_ID="${CIRCLE_WORKFLOW_ID:0:7}"
             echo CIRCLE_WORKFLOW_ID="${CIRCLE_WORKFLOW_ID:0:7}"
       - run:
          name: Remove Old Infra
          command: |
+            export CIRCLE_WORKFLOW_ID="${CIRCLE_WORKFLOW_ID:0:7}"
+            echo CIRCLE_WORKFLOW_ID="${CIRCLE_WORKFLOW_ID:0:7}"
             if [[ "$CIRCLE_WORKFLOW_ID" != "$OldWorkflowID" ]]
             then
               aws s3 rm "s3://udapeople-$OldWorkflowID" --recursive
