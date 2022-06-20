@@ -377,7 +377,7 @@ jobs:
       steps:
         - checkout
         - run:
-            name: Get WorkflowID and Clean Up
+            name: Get WorkflowID and Clean Ups
             command: |
               export WorkflowID=$(curl https://kvdb.io/4UyLmH6gV9fDPfNi3hRy38/OldWrkflwId)
               echo WorkflowID: "$WorkflowID"
