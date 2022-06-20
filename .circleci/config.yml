@@ -376,19 +376,16 @@ jobs:
                 --no-paginate --output text)
               echo OldWorkflowID: "${OldWorkflowID}"
               echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
-              export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
-                --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
+              export STACKS=$(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
+                --stack-status-filter CREATE_COMPLETE --no-paginate --output text)
               echo Stack names: "${STACKS[@]}"
-        - run:
-            name: Remove old stacks and files
-            command: |
-              if [[ "$CurrentWorkflowID" != "$OldWorkflowID" ]]
+              if [[ "${OldWorkflowID}" =~ "${STACKS[@]}"  ]]
               then
-                aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
-                aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
-                aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
+                aws s3 rm "s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}" --recursive
+                aws cloudformation delete-stack --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
+                aws cloudformation delete-stack --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
               else
-                echo "$OldWorkflowID==$CurrentWorkflowID => nothing needs to be done..."
+                echo "nothing to needs to be done..."
               fi 
         - slack/notify:
             event: fail
