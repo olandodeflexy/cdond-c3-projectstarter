@@ -76,3 +76,4 @@ udacity.pem
 S3bucket.yml
 Cloudfront.yml
 pushgit.sh
+*.pem
