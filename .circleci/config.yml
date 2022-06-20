@@ -313,9 +313,9 @@ jobs:
           name: Back-end Smoke Test
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
-            --filter "Name=instance-state-name,Values=running" \
-            --query "Reservations[*].Instances[*].[PublicIpAddress]" \
-            --output text)
+              --filter "Name=instance-state-name,Values=running" \
+              --query "Reservations[*].Instances[*].[PublicIpAddress]" \
+              --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
@@ -353,7 +353,16 @@ jobs:
       - run:
           name: Update cloudfront distribution
           command: |
-            aws cloudformation deploy \
+              export OldWorkflowID=$(aws cloudformation \
+                list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+                --no-paginate --output text)
+              curl https://kvdb.io/4UyLmH6gV9fDPfNi3hRy38/OldWrkflwId  -d '1'
+              echo OldWorkflowID: "$OldWorkflowID"
+              export CIRCLE_WORKFLOW_ID="${CIRCLE_WORKFLOW_ID:0:7}"
+      - run:
+          name: Update cloudfront distribution
+          command: |
+              aws cloudformation deploy \
                  --template-file .circleci/files/cloudfront.yml \
                  --stack-name InitialStack \
                  --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
@@ -369,20 +378,22 @@ jobs:
     steps:
       - checkout
       - run:
-         name: Get old stack workflow id
-         command: |
-            export OldWorkflowID=$(aws cloudformation \
-              list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-              --no-paginate --output text)
+          name: Get old stack workflow id
+          command: |
+            echo OldWorkflowID=$(curl curl https://kvdb.io/4UyLmH6gV9fDPfNi3hRy38/OldWrkflwId)
             echo OldWorkflowID: "$OldWorkflowID"
             export CIRCLE_WORKFLOW_ID="${CIRCLE_WORKFLOW_ID:0:7}"
-            if [[ "$CurrentWorkflowID" != "$OldWorkflowID" ]]
+            echo CIRCLE_WORKFLOW_ID="${CIRCLE_WORKFLOW_ID:0:7}"
+      - run:
+         name: Remove Old Infra
+         command: |
+            if [[ "$CIRCLE_WORKFLOW_ID" != "$OldWorkflowID" ]]
             then
               aws s3 rm "s3://udapeople-$OldWorkflowID" --recursive
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
             else
-              echo "$OldWorkflowID==$CurrentWorkflowID => nothing needs to be done..."
+              echo nothing needs to be done..."
             fi  
       - slack/notify:
             event: fail
