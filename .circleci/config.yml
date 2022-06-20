@@ -390,10 +390,10 @@ jobs:
               else
                 echo "$OldWorkflowID==$CurrentWorkflowID => nothing needs to be done..."
               fi 
-      - slack/notify:
+        - slack/notify:
             event: fail
             template: basic_fail_1
-      - slack/notify:
+        - slack/notify:
             event: pass
             template: success_tagged_deploy_1
 
