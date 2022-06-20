@@ -365,7 +365,7 @@ jobs:
               aws cloudformation deploy \
                  --template-file .circleci/files/cloudfront.yml \
                  --stack-name InitialStack \
-                 --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+                 --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
                  --tags project=udapeople
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
@@ -393,7 +393,7 @@ jobs:
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
             else
-              echo nothing needs to be done..."
+              echo "Clean up not needed"
             fi  
       - slack/notify:
             event: fail
