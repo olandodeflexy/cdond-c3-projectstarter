@@ -377,7 +377,7 @@ jobs:
       steps:
         - checkout
         - run:
-            name: Get old stack workflow id
+            name: Get WorkflowID and Clean Up
             command: |
               export WorkflowID=$(curl https://kvdb.io/4UyLmH6gV9fDPfNi3hRy38/OldWrkflwId)
               echo WorkflowID: "$WorkflowID"
@@ -390,6 +390,7 @@ jobs:
               echo Stack names: "${STACKS[@]}"
               if [[ "$OldWorkflowID" =~ "$WorkFlowID"  ]]
               then
+                echo "$OldWorkflowID" is not the same as "$WorkFlowID" deleting Old Stack
                 aws s3 rm "s3://udapeople-$OldWorkFlowID" --recursive
                 aws cloudformation delete-stack --stack-name "udapeople-backend-$OldWorkFlowID"
                 aws cloudformation delete-stack --stack-name "udapeople-frontend-$OldWorkFlowID"
