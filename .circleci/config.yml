@@ -384,11 +384,12 @@ jobs:
                 --no-paginate --output text)
               echo OldWorkFlowID: "${OldWorkFlowID}"
               export CurrentWorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"
+              echo CurrentWorkflowID: "${CurrentWorkflowID}"
               export STACKS=$(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
                 --stack-status-filter CREATE_COMPLETE --no-paginate --output text)
               echo Stack names: "${STACKS[@]}"
               export OldWorkflowID="$WorkFlowID"
-              if [[ "$OldWorkflowID" =~ "$WorkFlowID"  ]]
+              if [[ "$OldWorkflowID" =~ "CurrentWorkflowID"  ]]
               then
                 echo "$OldWorkflowID" is not the same as "$WorkFlowID" deleting Old Stack
                 aws s3 rm "s3://udapeople-$OldWorkFlowID" --recursive
