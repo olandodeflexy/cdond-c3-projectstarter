@@ -293,7 +293,7 @@ jobs:
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
       - run:
-          name: Setup Prometheus Node Exporter
+          name: Setup Prometheus Node Exporters
           command: |
             cd .circleci/ansible
             cat inventory.txt
